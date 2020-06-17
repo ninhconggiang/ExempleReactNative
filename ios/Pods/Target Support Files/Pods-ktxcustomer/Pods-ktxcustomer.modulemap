@@ -1,0 +1,6 @@
+module Pods_ktxcustomer {
+  umbrella header "Pods-ktxcustomer-umbrella.h"
+
+  export *
+  module * { export * }
+}
