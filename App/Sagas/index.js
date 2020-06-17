@@ -1,32 +1,30 @@
-import { takeLatest, all } from 'redux-saga/effects'
-import API from '../Services/Api'
-import FixtureAPI from '../Services/FixtureApi'
-import DebugConfig from '../Config/DebugConfig'
-
-/* ------------- Types ------------- */
-
-import { StartupTypes } from '../Redux/StartupRedux'
-import { GithubTypes } from '../Redux/GithubRedux'
-
-/* ------------- Sagas ------------- */
-
-import { startup } from './StartupSagas'
-import { getUserAvatar } from './GithubSagas'
-
-/* ------------- API ------------- */
-
-// The API we use is only used from Sagas, so we create it here and pass along
-// to the sagas which need it.
-const api = DebugConfig.useFixtures ? FixtureAPI : API.create()
-
-/* ------------- Connect Types To Sagas ------------- */
-
-export default function * root () {
-  yield all([
-    // some sagas only receive an action
-    takeLatest(StartupTypes.STARTUP, startup),
-
-    // some sagas receive extra parameters in addition to an action
-    takeLatest(GithubTypes.USER_REQUEST, getUserAvatar, api)
-  ])
+import {LOGIN_REQUEST, LOGIN_SUCCESS, LOGIN_FAILURE} from '../actions/type';
+import {loginSuccess} from '../actions/index'
+import {api} from '../../../api';
+import {put , takeLatest,takeEvery} from 'redux-saga/effects';
+ function* fetchLoginRequestSaga(){
+    console.log('voo')
+    let url = 'Users/Login';
+          // console.log('action', action);
+          var body = {
+            // UserName: action.userName,
+            // UserPassword:action.passWord,
+            UserName: 'kythuat1',
+            UserPassword:'202cb962ac59075b964b07152d234b70'
+          };
+    try {
+        const result = yield api(url, body);
+        console.log('result',result[0],)
+        yield put(loginSuccess(result[0]));
+        // if(result==true){
+        //     yield call( response)
+            // yield put ({ LOGIN_SUCCESS, data:result[0]})
+        // }
+    } catch (error) {
+        
+    }
+} ;
+export function* watchFetchLoginRequestSaga(){
+    console.log('vooo1')
+    yield takeLatest (LOGIN_REQUEST, fetchLoginRequestSaga);
 }
