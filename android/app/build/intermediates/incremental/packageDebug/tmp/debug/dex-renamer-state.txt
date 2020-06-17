@@ -1,0 +1,4 @@
+#Mon Jun 08 10:21:53 ICT 2020
+base.0=/Users/qtsd/Desktop/KTX Customer/ktxcustomer/android/app/build/intermediates/transforms/dexMerger/debug/0
+path.0=classes.dex
+renamed.0=classes.dex
